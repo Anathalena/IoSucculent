@@ -1,0 +1,22 @@
+### Eclipse ###
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+**/.settings
+.loadpath
+.recommenders
+*.d
+*.o
+*.su
+*.mk
+*.map
+*.list
+*.elf
+*.cyclo
+makefile
+.vscode/
