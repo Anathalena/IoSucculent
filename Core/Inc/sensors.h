@@ -20,7 +20,6 @@ typedef struct {
 	bme280_packet air_packet;
 } data_packet;
 
-data_packet data[BUFFER_SIZE];
 
 void ReadSoilData();
 void ReadAirData();
