@@ -7,9 +7,23 @@ extern "C" {
 
 #include "stdint.h"
 
-uint8_t ReadSoilMoisture();
-void SendSensorReadings();
+typedef struct {
+	int8_t temperature;
+	uint8_t pressure;
+	uint8_t humidity;
+} bme280_packet;
 
+typedef struct {
+	uint8_t soil_moisture;
+	bme280_packet air_packet;
+} data_packet;
+
+data_packet data;
+
+void ReadSoilData();
+void ReadAirData();
+void ReadSensorData();
+void SendSensorData();
 
 #ifdef __cplusplus
 }

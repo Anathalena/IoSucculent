@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "i2c.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -26,6 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
+#include "bmp280.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,7 +59,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+BMP280_HandleTypedef bme280;
 /* USER CODE END 0 */
 
 /**
@@ -92,9 +94,18 @@ int main(void)
   MX_USART2_UART_Init();
   MX_TIM14_Init();
   MX_ADC1_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim14);
 
+  bmp280_init_default_params(&bme280.params);
+  bme280.addr = BMP280_I2C_ADDRESS_0;
+  bme280.i2c = &hi2c1;
+
+  while (!bmp280_init(&bme280, &bme280.params)) {
+	  printf("BME280 initialization failed\n");
+ 	  HAL_Delay(5000);
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
