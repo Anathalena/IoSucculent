@@ -7,6 +7,8 @@ extern "C" {
 
 #include "stdint.h"
 
+#define BUFFER_SIZE 5
+
 typedef struct {
 	int8_t temperature;
 	uint8_t pressure;
@@ -18,7 +20,7 @@ typedef struct {
 	bme280_packet air_packet;
 } data_packet;
 
-data_packet data;
+data_packet data[BUFFER_SIZE];
 
 void ReadSoilData();
 void ReadAirData();

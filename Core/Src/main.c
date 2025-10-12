@@ -96,8 +96,15 @@ int main(void)
   MX_ADC1_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
+
+  // Start TIM14 in interrupt mode
   HAL_TIM_Base_Start_IT(&htim14);
 
+  // Start USART2 in interrupt mode
+  uint8_t rx_input;
+  HAL_UART_Receive_IT(&huart2, &rx_input, 1);
+
+  // Initialize BME280 with address 1110110 (0x76)
   bmp280_init_default_params(&bme280.params);
   bme280.addr = BMP280_I2C_ADDRESS_0;
   bme280.i2c = &hi2c1;

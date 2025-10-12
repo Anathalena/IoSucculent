@@ -34,13 +34,20 @@ void ReadAirData(bme280_packet *data)
 
 void ReadSensorData()
 {
-	ReadSoilData(&data.soil_moisture);
-	ReadAirData(&data.air_packet);
+	static unsigned int idx = 0;
+	ReadSoilData(&data[idx].soil_moisture);
+	ReadAirData(&data[idx].air_packet);
+	idx += 1;
+
+	if(idx == BUFFER_SIZE){
+		idx = 0;
+	}
 }
 
 void SendSensorData()
 {
-	ReadSensorData();
-	printf("Soil moisture: %d%%\n", data.soil_moisture);
-	printf("Air temperature: %dC; Air humidity: %d%%\n", data.air_packet.temperature, data.air_packet.humidity);
+	for(int idx=0; idx<BUFFER_SIZE; idx++){
+		printf("Soil moisture: %d%%\n", data[idx].soil_moisture);
+			printf("Air temperature: %dC; Air humidity: %d%%\n", data[idx].air_packet.temperature, data[idx].air_packet.humidity);
+	}
 }
