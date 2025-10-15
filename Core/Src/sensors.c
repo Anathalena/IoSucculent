@@ -1,11 +1,9 @@
 #include "sensors.h"
 #include "main.h"
-#include "usart.h"
 #include "adc.h"
 #include "bmp280.h"
 #include "stdio.h"
 
-extern BMP280_HandleTypedef bme280;
 circular_data_buffer data_buffer;
 
 void  sensors_read_soil_data(uint8_t *soil_data)

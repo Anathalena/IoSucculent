@@ -21,15 +21,13 @@
 #include "adc.h"
 #include "i2c.h"
 #include "rtc.h"
-#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
-#include "bmp280.h"
-#include "sensors.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -62,7 +60,6 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 BMP280_HandleTypedef bme280;
-uint8_t rx_input;
 /* USER CODE END 0 */
 
 /**
@@ -99,7 +96,6 @@ int main(void)
   MX_I2C1_Init();
   MX_RTC_Init();
   /* USER CODE BEGIN 2 */
-
 
   // Start USART2 in interrupt mode
   HAL_UART_Receive_IT(&huart2, &rx_input, 1);
@@ -168,15 +164,6 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-	if(rx_input == 'R'){
-		sensors_send_data();
-	} else {
-		printf("Unexpected message. Please use \"Report\" to receive data\n");
-	}
-	HAL_UART_Receive_IT(&huart2, &rx_input, 1);
-}
 /* USER CODE END 4 */
 
 /**

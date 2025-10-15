@@ -21,7 +21,10 @@
 #include "usart.h"
 
 /* USER CODE BEGIN 0 */
+#include "stdio.h"
+#include "sensors.h"
 
+uint8_t rx_input;
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart2;
@@ -120,6 +123,16 @@ int __io_putchar(int ch)
 	HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);
 
     return ch;
+}
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(rx_input == 'R'){
+		sensors_send_data();
+	} else {
+		printf("Unexpected message. Please use \"Report\" to receive data\n");
+	}
+	HAL_UART_Receive_IT(&huart2, &rx_input, 1);
 }
 
 /* USER CODE END 1 */
