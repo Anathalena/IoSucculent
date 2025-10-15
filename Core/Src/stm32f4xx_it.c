@@ -220,7 +220,7 @@ void USART2_IRQHandler(void)
 void TIM8_TRG_COM_TIM14_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM8_TRG_COM_TIM14_IRQn 0 */
-  ReadSensorData();
+	sensors_save_data_to_global_buffer();
   printf("Recorded data\n");
   /* USER CODE END TIM8_TRG_COM_TIM14_IRQn 0 */
   HAL_TIM_IRQHandler(&htim14);

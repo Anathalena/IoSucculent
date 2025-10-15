@@ -6,9 +6,9 @@
 #include "stdio.h"
 
 extern BMP280_HandleTypedef bme280;
-data_packet data[BUFFER_SIZE];
+circular_data_buffer data_buffer;
 
-void  ReadSoilData(uint8_t *soil_data)
+void  sensors_read_soil_data(uint8_t *soil_data)
 {
 	uint16_t adc_val;
 
@@ -18,7 +18,7 @@ void  ReadSoilData(uint8_t *soil_data)
 	HAL_ADC_Stop(&hadc1);
 }
 
-void ReadAirData(bme280_packet *air_data)
+void sensors_read_air_data(bme280_packet *air_data)
 {
 	int32_t temperature;
 	uint32_t pressure;
@@ -33,22 +33,18 @@ void ReadAirData(bme280_packet *air_data)
 	air_data->pressure = (uint8_t)(pressure >> 8);
 }
 
-void ReadSensorData()
+void sensors_save_data_to_global_buffer(void)
 {
-	static unsigned int idx = 0;
-	ReadSoilData(&data[idx].soil_moisture);
-	ReadAirData(&data[idx].air_packet);
-	idx += 1;
-
-	if(idx == BUFFER_SIZE){
-		idx = 0;
-	}
+	sensors_read_soil_data(&data_buffer.data[data_buffer.current_entry].soil_moisture);
+	sensors_read_air_data(&data_buffer.data[data_buffer.current_entry].air_packet);
+	data_buffer.current_entry++;
+	data_buffer.current_entry = data_buffer.current_entry % BUFFER_SIZE;
 }
 
-void SendSensorData()
+void sensors_send_data(void)
 {
 	for(int idx=0; idx<BUFFER_SIZE; idx++){
-		printf("Soil moisture: %d%%\n", data[idx].soil_moisture);
-		printf("Air temperature: %dC; Air humidity: %d%%\n", data[idx].air_packet.temperature, data[idx].air_packet.humidity);
+		printf("Soil moisture: %d%%\n", data_buffer.data[idx].soil_moisture);
+		printf("Air temperature: %dC; Air humidity: %d%%\n", data_buffer.data[idx].air_packet.temperature, data_buffer.data[idx].air_packet.humidity);
 	}
 }

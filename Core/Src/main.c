@@ -171,8 +171,8 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	if(strncmp((char*)rx_input, "Report",6) == 0){
-		SendSensorData();
+	if(strncmp((char*)rx_input, "Report", 6) == 0){
+		sensors_send_data();
 	} else {
 		printf("Unexpected message. Please use \"Report\" to receive data\n");
 	}
