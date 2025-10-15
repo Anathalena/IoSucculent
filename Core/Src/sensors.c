@@ -13,6 +13,7 @@ void  sensors_read_soil_data(uint8_t *soil_data)
 	uint16_t adc_val;
 
 	HAL_ADC_Start(&hadc1);
+	HAL_ADC_PollForConversion(&hadc1, 50);
 	adc_val = HAL_ADC_GetValue(&hadc1);
 	*soil_data = (uint8_t)(100.0f * (1.0f - (float)adc_val/4095.0f));
 	HAL_ADC_Stop(&hadc1);
