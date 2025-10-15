@@ -27,7 +27,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
-#include "string.h"
 #include "bmp280.h"
 #include "sensors.h"
 /* USER CODE END Includes */
@@ -62,7 +61,7 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 BMP280_HandleTypedef bme280;
-uint8_t rx_input[6] = {0};
+uint8_t rx_input;
 /* USER CODE END 0 */
 
 /**
@@ -104,7 +103,7 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim14);
 
   // Start USART2 in interrupt mode
-  HAL_UART_Receive_IT(&huart2, rx_input, 7);
+  HAL_UART_Receive_IT(&huart2, &rx_input, 1);
 
   // Initialize BME280 with address 1110110 (0x76)
   bmp280_init_default_params(&bme280.params);
@@ -171,12 +170,12 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	if(strncmp((char*)rx_input, "Report", 6) == 0){
+	if(rx_input == 'R'){
 		sensors_send_data();
 	} else {
 		printf("Unexpected message. Please use \"Report\" to receive data\n");
 	}
-	HAL_UART_Receive_IT(&huart2, rx_input, 7);
+	HAL_UART_Receive_IT(&huart2, &rx_input, 1);
 }
 /* USER CODE END 4 */
 
