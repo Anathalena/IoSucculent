@@ -36,6 +36,8 @@ void sensors_read_air_data(bme280_packet *air_data)
 
 void sensors_save_data_to_global_buffer(void)
 {
+	HAL_RTC_GetTime(&hrtc, &data_buffer.data[data_buffer.current_entry].time, RTC_FORMAT_BIN);
+	HAL_RTC_GetDate(&hrtc, &data_buffer.data[data_buffer.current_entry].date, RTC_FORMAT_BIN);
 	sensors_read_soil_data(&data_buffer.data[data_buffer.current_entry].soil_moisture);
 	sensors_read_air_data(&data_buffer.data[data_buffer.current_entry].air_packet);
 	data_buffer.current_entry++;
@@ -45,7 +47,13 @@ void sensors_save_data_to_global_buffer(void)
 void sensors_send_data(void)
 {
 	for(int idx=0; idx<BUFFER_SIZE; idx++){
+		printf("%d.%d.%d %d:%d\n", 	data_buffer.data[idx].date.Date,
+									data_buffer.data[idx].date.Month,
+									data_buffer.data[idx].date.Year,
+									data_buffer.data[idx].time.Hours,
+									data_buffer.data[idx].time.Minutes);
 		printf("Soil moisture: %d%%\n", data_buffer.data[idx].soil_moisture);
-		printf("Air temperature: %dC; Air humidity: %d%%\n", data_buffer.data[idx].air_packet.temperature, data_buffer.data[idx].air_packet.humidity);
+		printf("Air temperature: %dC; Air humidity: %d%%\n", 	data_buffer.data[idx].air_packet.temperature,
+																data_buffer.data[idx].air_packet.humidity);
 	}
 }

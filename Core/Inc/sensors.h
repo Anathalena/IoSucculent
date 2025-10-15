@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 #include "stdint.h"
+#include "rtc.h"
 
 #define BUFFER_SIZE 5
 
@@ -16,8 +17,10 @@ typedef struct {
 } bme280_packet;
 
 typedef struct {
-	uint8_t soil_moisture;
+	RTC_DateTypeDef date;
+	RTC_TimeTypeDef time;
 	bme280_packet air_packet;
+	uint8_t soil_moisture;
 } data_packet;
 
 typedef struct {
