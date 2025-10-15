@@ -95,14 +95,11 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
-  MX_TIM14_Init();
   MX_ADC1_Init();
   MX_I2C1_Init();
   MX_RTC_Init();
   /* USER CODE BEGIN 2 */
 
-  // Start TIM14 in interrupt mode
-  HAL_TIM_Base_Start_IT(&htim14);
 
   // Start USART2 in interrupt mode
   HAL_UART_Receive_IT(&huart2, &rx_input, 1);
