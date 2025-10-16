@@ -8,7 +8,7 @@ extern "C" {
 #include "stdint.h"
 #include "rtc.h"
 
-#define BUFFER_SIZE 5
+#define BUFFER_SIZE 1024
 
 typedef struct {
 	int8_t temperature;
