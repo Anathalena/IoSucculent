@@ -98,7 +98,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   // Start USART2 in interrupt mode
-  HAL_UART_Receive_IT(&huart2, &rx_input, 1);
+  HAL_UART_Receive_IT(&huart2, rx_input, 1);
 
   // Initialize BME280 with address 1110110 (0x76)
   bmp280_init_default_params(&bme280.params);

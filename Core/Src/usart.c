@@ -23,8 +23,13 @@
 /* USER CODE BEGIN 0 */
 #include "stdio.h"
 #include "sensors.h"
+#include "rtc.h"
 
-uint8_t rx_input;
+uint8_t rx_input[3];
+static uint8_t rx_input_prev = 0;
+
+static RTC_TimeTypeDef time_to_set;
+static RTC_DateTypeDef date_to_set;
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart2;
@@ -127,12 +132,40 @@ int __io_putchar(int ch)
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	if(rx_input == 'R'){
-		sensors_send_data();
-	} else {
-		printf("Unexpected message. Please use \"Report\" to receive data\n");
+	if(rx_input_prev == 'T') {
+		time_to_set.Hours = rx_input[0];
+		time_to_set.Minutes = rx_input[1];
+		time_to_set.Seconds = rx_input[2];
+		HAL_RTC_SetTime(&hrtc, &time_to_set, RTC_FORMAT_BIN);
+
+		rx_input_prev = 0;
+		HAL_UART_Receive_IT(&huart2, rx_input, 1);
+
+		return;
+	} else if (rx_input_prev == 'D'){
+		date_to_set.Year = rx_input[0];
+		date_to_set.Month = rx_input[1];
+		date_to_set.Date = rx_input[2];
+		HAL_RTC_SetDate(&hrtc, &date_to_set, RTC_FORMAT_BIN);
+
+		rx_input_prev = 0;
+		HAL_UART_Receive_IT(&huart2, rx_input, 1);
+
+		return;
 	}
-	HAL_UART_Receive_IT(&huart2, &rx_input, 1);
+
+	if(rx_input[0] == 'R'){
+		sensors_send_data();
+	} else if (rx_input[0] == 'T' || rx_input[0] == 'D'){
+		rx_input_prev = rx_input[0];
+		HAL_UART_Receive_IT(&huart2, rx_input, 3);
+		return;
+	} else {
+		printf("Wrong character\n");
+	}
+
+
+	HAL_UART_Receive_IT(&huart2, rx_input, 1);
 }
 
 /* USER CODE END 1 */
