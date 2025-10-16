@@ -45,13 +45,13 @@ void sensors_save_data_to_global_buffer(void)
 void sensors_send_data(void)
 {
 	for(int idx=0; idx<BUFFER_SIZE; idx++){
-		printf("%d.%d.%d %d:%d\n", 	data_buffer.data[idx].date.Date,
-									data_buffer.data[idx].date.Month,
-									data_buffer.data[idx].date.Year,
-									data_buffer.data[idx].time.Hours,
-									data_buffer.data[idx].time.Minutes);
-		printf("Soil moisture: %d%%\n", data_buffer.data[idx].soil_moisture);
-		printf("Air temperature: %dC; Air humidity: %d%%\n", 	data_buffer.data[idx].air_packet.temperature,
-																data_buffer.data[idx].air_packet.humidity);
+		printf("%d,%d,%d,%d,%d,%d,%d,%d\n", data_buffer.data[idx].date.Date,
+											data_buffer.data[idx].date.Month,
+											data_buffer.data[idx].date.Year,
+											data_buffer.data[idx].time.Hours,
+											data_buffer.data[idx].time.Minutes,
+											data_buffer.data[idx].soil_moisture,
+											data_buffer.data[idx].air_packet.temperature,
+											data_buffer.data[idx].air_packet.humidity);
 	}
 }
