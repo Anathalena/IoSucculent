@@ -65,7 +65,7 @@ def main():
     print("Reading data..")
     raw_output = read_data(ser)
     output = to_processed_dataframe(raw_output)
-    name = str(output['Datetime'].iloc[0]) + ' - ' + str(output['Datetime'].iloc[-1])
+    name = "output.csv"
     output.to_csv(os.path.join(CSV_DIR, name), index=False)
     print("Data saved to ", name, ".csv")
 
