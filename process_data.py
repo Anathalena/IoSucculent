@@ -34,7 +34,7 @@ def to_processed_dataframe(unprocessed_output):
     )
     processed_df.drop(columns=['Day', 'Month', 'Year', 'Hours', 'Minutes'], inplace=True)
     processed_df = processed_df.sort_values(by='Datetime')
-    processed_df = processed_df[['Datetime', 'SoilMoisture', 'AirTemperature', 'AirHumidity']]
+    processed_df = processed_df[['Datetime', 'SoilMoisture [%]', 'AirTemperature [C]', 'AirHumidity [%]']]
     return processed_df
 
 def main():
