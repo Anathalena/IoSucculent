@@ -26,7 +26,7 @@ def read_data(ser):
 def to_processed_dataframe(unprocessed_output):
     data_series = pd.Series(unprocessed_output)
     processed_df = data_series.str.split(',', expand=True).astype(int)
-    processed_df.columns = ['Day', 'Month', 'Year', 'Hours', 'Minutes', 'SoilMoisture', 'AirTemperature', 'AirHumidity']
+    processed_df.columns = ['Day', 'Month', 'Year', 'Hours', 'Minutes', 'SoilMoisture [%]', 'AirTemperature [C]', 'AirHumidity [%]']
     processed_df = processed_df[processed_df.Year!=0]
     processed_df['Datetime'] = pd.to_datetime(
     dict(year=(processed_df['Year']+2000), month=processed_df['Month'], day=processed_df['Day'],
