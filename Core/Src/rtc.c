@@ -160,7 +160,6 @@ void HAL_RTC_MspDeInit(RTC_HandleTypeDef* rtcHandle)
 void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc)
 {
 	sensors_save_data_to_global_buffer();
-	printf("Recorded data\n");
 }
 
 /* USER CODE END 1 */
