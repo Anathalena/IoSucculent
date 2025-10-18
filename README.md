@@ -44,4 +44,4 @@ Data acquisition and transmission logic is in `Core/Inc/sensors.h`/`Core/Src/sen
   - All other input will result in an error message.
  
 ### Clock configuration
-- Using external `32.768kHz` clock
+- Using external `16MHz` (system) and `32.768kHz` (for RTC) clock 
