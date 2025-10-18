@@ -14,6 +14,9 @@ Sensor data is logged into a circular buffer (capacity of `1024` logs) together 
 Data formatting and sorting are handled on the Python side. 
 Data acquisition and transmission logic is in `Core/Inc/sensors.h`/`Core/Src/sensors.c`. 
 
+![Realisation](/iosucc2.jpeg?raw=true)
+
+
 ### Hardware
 - development board: [MINI-M4](https://download.mikroe.com/documents/starter-boards/mini/stm32/f4/mini-m4-stm32-manual-v100.pdf) (containing STM32F415RG)
 - debugger/programmer: [ST-LINK/V2](https://www.st.com/en/development-tools/st-link-v2.html#overview) 
@@ -21,7 +24,7 @@ Data acquisition and transmission logic is in `Core/Inc/sensors.h`/`Core/Src/sen
 - capacitive soil moisture sensor
 - USB to UART converter: [TTL-232R-3V3](https://ftdichip.com/products/ttl-232r-3v3/)
 
-![Hardware scheme](/iosucc.png?raw=true)
+![Hardware scheme](/iosucc.jpeg?raw=true)
 
 ### Software
 - IDE: STM32CubeIDE
